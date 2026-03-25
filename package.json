@@ -1,0 +1,32 @@
+{
+  "name": "gym-management",
+  "version": "1.0.0",
+  "description": "GymPass style app.",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx watch build/server.cjs",
+    "build": "tsup src --out-dir build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaovitorps/gym-access.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/joaovitorps/gym-access/issues"
+  },
+  "homepage": "https://github.com/joaovitorps/gym-access#readme",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "fastify": "^5.8.4"
+  }
+}

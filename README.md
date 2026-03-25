@@ -1,5 +1,9 @@
 GymPass style app.
 
+Framework: Fastify
+Build: tsup
+Language: Node.js (module), TypeScript
+
 ## FRs (Functional Requirements)
 
 - [ ] It must be possible to register;
