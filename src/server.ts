@@ -1,6 +1,7 @@
 import {app} from "./app.js";
+import {env} from "./env/index.js";
 
 app.listen({
     host: '0.0.0.0',
-    port: 3333
-}, () => console.log("🚀 Server started!"))
+    port: env.PORT
+}, ((_err, address) => console.log(`🚀 Server started at ${address}!`)))
