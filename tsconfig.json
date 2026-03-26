@@ -3,7 +3,9 @@
   "compilerOptions": {
     // File Layout
      "rootDir": "./src",
-
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
@@ -34,6 +36,6 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   }
 }
