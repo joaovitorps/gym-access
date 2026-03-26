@@ -5,6 +5,7 @@ Build: tsup
 Language: Node.js (module), TypeScript
 Format and linting: Biome
 Data input: Zod
+ORM: Prisma
 
 ## FRs (Functional Requirements)
 
