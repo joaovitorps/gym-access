@@ -16,6 +16,25 @@ model User {
   id    String @id @default(uuid())
   name  String
   email String @unique
+  password_hash String
+  created_at DateTime @default(now())
 
   @@map("user") // Actual name of the table
+}
+
+model CheckIn {
+  id String @id @default(uuid())
+  created_at DateTime @default(now())
+  validated_at DateTime?
+
+  @@map("check_in")
+}
+
+model Gym {
+  id    String @id @default(uuid())
+  title String
+  description String?
+  phone String?
+  longitude Decimal
+  latitude Decimal
 }
