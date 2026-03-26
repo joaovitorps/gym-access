@@ -3,6 +3,8 @@ GymPass style app.
 Framework: Fastify
 Build: tsup
 Language: Node.js (module), TypeScript
+Format and linting: Biome
+Data input: Zod
 
 ## FRs (Functional Requirements)
 
