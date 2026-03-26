@@ -21,12 +21,12 @@
   },
   "homepage": "https://github.com/joaovitorps/gym-access#readme",
   "devDependencies": {
-    "@types/node": "^25.5.0",
-    "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "@types/node": "25.5.0",
+    "tsup": "8.5.1",
+    "tsx": "4.21.0",
+    "typescript": "6.0.2"
   },
   "dependencies": {
-    "fastify": "^5.8.4"
+    "fastify": "5.8.4"
   }
 }
