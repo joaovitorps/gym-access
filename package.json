@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "tsx watch build/server.cjs",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "format": "biome format --write",
+    "lint": "biome lint"
   },
   "repository": {
     "type": "git",
