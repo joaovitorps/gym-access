@@ -1,14 +1,11 @@
-import type {
-  UserCreateInput,
-  UserWhereUniqueInput,
-} from "@/generated/prisma/models";
+import type { UserCreateInput } from "@/generated/prisma/models";
 import { prisma } from "@/lib/prisma";
 import type { UserRegisterRepository } from "../user-register-repository";
 
 export class PrismaRegisterRepository implements UserRegisterRepository {
-  async exists(uniqueProperty: UserWhereUniqueInput) {
+  async existsByEmail(email: string) {
     return await prisma.user.findUnique({
-      where: uniqueProperty,
+      where: { email },
     });
   }
 
