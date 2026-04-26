@@ -6,6 +6,10 @@ npm run dev
 docker compose up -d
 ```
 
+```shell
+npx prisma migrate dev
+```
+
 GymPass style app.
 
 - Framework: Fastify
@@ -15,6 +19,7 @@ GymPass style app.
 - Data input: Zod
 - ORM: Prisma 6
 - Dates: dayjs
+- JWT
 
 - repository pattern
 - inMemory test database pattern
@@ -49,4 +54,4 @@ GymPass style app.
 - [x] The user's password must be encrypted;
 - [x] Application data must be persisted in a PostgreSQL database;
 - [x] All data lists must be paginated with 20 items per page;
-- [ ] The user must be identified by a JWT (JSON Web Token);
+- [x] The user must be identified by a JWT (JSON Web Token);
