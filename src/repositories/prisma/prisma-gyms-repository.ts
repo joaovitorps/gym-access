@@ -1,5 +1,7 @@
+import type { Gym } from "@/generated/prisma/client";
 import type { GymCreateInput } from "@/generated/prisma/models";
 import { prisma } from "@/lib/prisma";
+import { MAX_DISTANCE_NEARBY_GYMS_IN_KILOMETERS } from "@/utils/constants/distance";
 import { MAX_ITEMS_PER_PAGE } from "@/utils/constants/paginate";
 import type { FetchNearbyParams, GymsRepository } from "../gyms-repository";
 
@@ -12,8 +14,12 @@ export class PrismaGymsRepository implements GymsRepository {
     return gym;
   }
   async fetchNearby({ userLatitude, userLongitude }: FetchNearbyParams) {
-    throw new Error("Method not implemented.");
+    const gyms = await prisma.$queryRaw<Gym[]>`SELECT * FROM gyms
+    WHERE ( 6371 * acos( cos( radians(${userLatitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${userLongitude}) ) + sin( radians(${userLatitude}) ) * sin( radians( latitude ) ) ) ) <= ${MAX_DISTANCE_NEARBY_GYMS_IN_KILOMETERS}`;
+
+    return gyms;
   }
+
   async searchGyms(query: string, page: number) {
     const gyms = await prisma.gym.findMany({
       where: { title: { contains: query } },
