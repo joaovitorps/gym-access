@@ -1,6 +1,6 @@
 import type { UserCreateInput } from "@/generated/prisma/models";
 import { prisma } from "@/lib/prisma";
-import type { UsersRepository } from "../../users-repository";
+import type { UsersRepository } from "../users-repository";
 
 export class PrismaUsersRepository implements UsersRepository {
   async existsById(userId: string) {
