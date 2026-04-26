@@ -1,9 +1,14 @@
+import jwt from "@fastify/jwt";
 import { fastify } from "fastify";
 import * as z from "zod";
 import { env } from "./env";
 import { appRoutes } from "./http/routes";
 
 export const app = fastify();
+
+app.register(jwt, {
+  secret: env.JWT_SECRET,
+});
 
 app.register(appRoutes);
 
@@ -15,7 +20,7 @@ app.setErrorHandler((error, _request, reply) => {
   }
 
   if (env.NODE_ENV !== "production") {
-    console.log(error);
+    console.error(error);
   } else {
     // TODO: use sentry/datadog/graphana or any other log external tool
   }
