@@ -7,8 +7,10 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx watch build/server.cjs",
     "build": "tsup src --out-dir build",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+    "test": "vitest --project unit",
+    "test:e2e": "vitest --project e2e",
+    "test:watch": "vitest --watch --project unit",
+    "test:e2e:watch": "vitest --watch --project e2e",
     "test:coverage": "vitest --coverage",
     "format": "biome format --write",
     "lint": "biome lint"
@@ -28,8 +30,10 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.9",
     "@types/node": "25.5.0",
+    "@types/supertest": "7.2.0",
     "@vitest/coverage-v8": "4.1.5",
     "prisma": "6.19.3",
+    "supertest": "7.2.2",
     "tsup": "8.5.1",
     "tsx": "4.21.0",
     "typescript": "6.0.2",
