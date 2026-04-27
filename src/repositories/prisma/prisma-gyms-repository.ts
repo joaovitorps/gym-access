@@ -14,7 +14,9 @@ export class PrismaGymsRepository implements GymsRepository {
     return gym;
   }
   async fetchNearby({ userLatitude, userLongitude }: FetchNearbyParams) {
-    const gyms = await prisma.$queryRaw<Gym[]>`SELECT * FROM gyms
+    console.log(userLatitude, userLongitude);
+    const gyms = await prisma.$queryRaw<Gym[]>`
+    SELECT * FROM "public"."Gym"
     WHERE ( 6371 * acos( cos( radians(${userLatitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${userLongitude}) ) + sin( radians(${userLatitude}) ) * sin( radians( latitude ) ) ) ) <= ${MAX_DISTANCE_NEARBY_GYMS_IN_KILOMETERS}`;
 
     return gyms;
@@ -23,8 +25,8 @@ export class PrismaGymsRepository implements GymsRepository {
   async searchGyms(query: string, page: number) {
     const gyms = await prisma.gym.findMany({
       where: { title: { contains: query } },
-      skip: MAX_ITEMS_PER_PAGE,
-      take: (page - 1) * MAX_ITEMS_PER_PAGE,
+      skip: (page - 1) * MAX_ITEMS_PER_PAGE,
+      take: MAX_ITEMS_PER_PAGE,
     });
 
     return gyms;

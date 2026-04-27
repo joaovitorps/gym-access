@@ -36,8 +36,8 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       where: {
         user_id: userId,
       },
-      skip: MAX_ITEMS_PER_PAGE,
-      take: (page - 1) * MAX_ITEMS_PER_PAGE,
+      skip: (page - 1) * MAX_ITEMS_PER_PAGE,
+      take: MAX_ITEMS_PER_PAGE,
     });
 
     return checkIn;
