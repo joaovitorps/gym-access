@@ -26,8 +26,6 @@ export const authenticate = async (
       },
     );
 
-    console.log(authToken);
-
     return reply.code(200).send({ token: authToken });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
