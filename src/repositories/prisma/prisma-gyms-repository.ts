@@ -1,4 +1,4 @@
-import type { Gym } from "@/generated/prisma/client";
+import { type Gym, Prisma } from "@/generated/prisma/client";
 import type { GymCreateInput } from "@/generated/prisma/models";
 import { prisma } from "@/lib/prisma";
 import { MAX_DISTANCE_NEARBY_GYMS_IN_KILOMETERS } from "@/utils/constants/distance";
@@ -14,9 +14,15 @@ export class PrismaGymsRepository implements GymsRepository {
     return gym;
   }
   async fetchNearby({ userLatitude, userLongitude }: FetchNearbyParams) {
-    console.log(userLatitude, userLongitude);
+    const schema: { current_schema: string }[] =
+      await prisma.$queryRaw`SELECT current_schema()`;
+
+    if (!schema[0]) {
+      throw new Error("Could not identify the schema.");
+    }
+
     const gyms = await prisma.$queryRaw<Gym[]>`
-    SELECT * FROM "public"."Gym"
+    SELECT * FROM ${Prisma.raw(`"${schema[0].current_schema}"."Gym"`)}
     WHERE ( 6371 * acos( cos( radians(${userLatitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${userLongitude}) ) + sin( radians(${userLatitude}) ) * sin( radians( latitude ) ) ) ) <= ${MAX_DISTANCE_NEARBY_GYMS_IN_KILOMETERS}`;
 
     return gyms;
