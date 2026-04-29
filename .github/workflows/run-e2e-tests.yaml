@@ -1,7 +1,7 @@
-name: Run unit tests
+name: Run e2e tests
 on: [push]
 jobs:
-  run-unit-tests:
+  run-e2e-tests:
     runs-on: ubuntu-latest
 
     services:

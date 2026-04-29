@@ -12,6 +12,6 @@ jobs:
       - run: npm ci
       - name: Generate Prisma Client
         run: npx prisma generate
-      - run: npm run test
         env:
           DATABASE_URL: "postgresql://docker:docker@localhost:5432/gymapp?schema=public"
+      - run: npm run test
