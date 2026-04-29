@@ -2,7 +2,7 @@ import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "@/app";
 
-describe("Register e2e", async () => {
+describe("User Authenticate e2e", async () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -11,7 +11,7 @@ describe("Register e2e", async () => {
     await app.close();
   });
 
-  it("should register the user", async () => {
+  it("should authenticate the user", async () => {
     await request(app.server).post("/users").send({
       name: "Doe",
       email: "test@test.com",
