@@ -3,6 +3,9 @@ on: [push]
 jobs:
   run-e2e-tests:
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: secret-test
+      DATABASE_URL: "postgresql://docker:docker@localhost:5432/gymapp?schema=public"
 
     services:
       postgres:
@@ -25,8 +28,5 @@ jobs:
 
       - name: Generate Prisma Client
         run: npx prisma generate
-        env:
-          JWT_SECRET: secret-test
-          DATABASE_URL: "postgresql://docker:docker@localhost:5432/gymapp?schema=public"
 
       - run: npm run test:e2e
