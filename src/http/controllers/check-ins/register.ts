@@ -24,12 +24,12 @@ export const checkInRegister = async (
 
   const useCase = makeCheckInUseCase();
 
-  const { checkIn } = await useCase.execute({
+  await useCase.execute({
     gymId,
     userId: request.user.sub,
     userLatitude: latitude,
     userLongitude: longitude,
   });
 
-  return reply.code(200).send({ checkIn });
+  return reply.code(201).send();
 };
