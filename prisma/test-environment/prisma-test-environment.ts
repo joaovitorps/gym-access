@@ -14,7 +14,7 @@ const getNewDatabaseURL = (schema: string) => {
   return dbUrl.toString();
 };
 
-export default <Environment>{
+export default (<Environment>{
   name: "prisma",
   viteEnvironment: "ssr",
   async setup() {
@@ -22,7 +22,7 @@ export default <Environment>{
     const schema = randomUUID();
     process.env.DATABASE_URL = getNewDatabaseURL(schema);
 
-    console.log(`[Test Environment] Using schema: ${schema}`);
+    console.log(`[Test Environment] Using schema: ${process.env.DATABASE_URL}`);
 
     execSync("npx prisma migrate deploy", {
       cwd: process.cwd(),
@@ -44,4 +44,4 @@ export default <Environment>{
       },
     };
   },
-};
+});
