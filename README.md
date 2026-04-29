@@ -46,8 +46,8 @@ GymPass style app.
 - [x] The user cannot perform 2 check-ins on the same day;
 - [x] The user cannot check-in if they are not close (within 100m) to the gym;
 - [x] The check-in can only be validated up to 20 minutes after being created;
-- [ ] The check-in can only be validated by administrators;
-- [ ] The gym can only be registered by administrators;
+- [x] The check-in can only be validated by administrators;
+- [x] The gym can only be registered by administrators;
 
 ## NFRs (Non-functional Requirements)
 

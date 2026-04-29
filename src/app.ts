@@ -1,3 +1,4 @@
+import cookie from "@fastify/cookie";
 import jwt from "@fastify/jwt";
 import { fastify } from "fastify";
 import * as z from "zod";
@@ -10,7 +11,16 @@ export const app = fastify();
 
 app.register(jwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "refreshToken",
+    signed: false,
+  },
+  sign: {
+    expiresIn: "10m",
+  },
 });
+
+app.register(cookie);
 
 app.register(userRoutes);
 app.register(gymRoutes);
