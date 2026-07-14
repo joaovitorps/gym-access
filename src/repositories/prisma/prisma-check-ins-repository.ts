@@ -31,6 +31,18 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
     return checkIn;
   }
 
+  async findMany(page: number) {
+    const checkIn = await prisma.checkIn.findMany({
+      orderBy: {
+        created_at: "desc",
+      },
+      skip: (page - 1) * MAX_ITEMS_PER_PAGE,
+      take: MAX_ITEMS_PER_PAGE,
+    });
+
+    return checkIn;
+  }
+
   async findManyByUserId(userId: string, page: number) {
     const checkIn = await prisma.checkIn.findMany({
       where: {
