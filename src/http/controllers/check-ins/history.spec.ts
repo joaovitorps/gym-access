@@ -1,5 +1,6 @@
+import { hash } from "bcryptjs";
 import request from "supertest";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { app } from "@/app";
 import { prisma } from "@/lib/prisma";
 import { createAndAuthenticateUser } from "@/utils/test/create-and-authenticate-user";
@@ -7,6 +8,12 @@ import { createAndAuthenticateUser } from "@/utils/test/create-and-authenticate-
 describe("Check-in History e2e", async () => {
   beforeAll(async () => {
     await app.ready();
+  });
+
+  beforeEach(async () => {
+    await prisma.checkIn.deleteMany();
+    await prisma.gym.deleteMany();
+    await prisma.user.deleteMany();
   });
 
   afterAll(async () => {
@@ -43,6 +50,53 @@ describe("Check-in History e2e", async () => {
     expect(checkInHistoryRequest.body.checkIns).toEqual([
       expect.objectContaining({ gym_id: gym.id, user_id: user.id }),
       expect.objectContaining({ gym_id: gym.id, user_id: user.id }),
+    ]);
+  });
+
+  it("should be able to get all check-ins history when user is admin", async () => {
+    const { token: memberToken } = await createAndAuthenticateUser(app);
+    const member = await prisma.user.findFirstOrThrow();
+
+    const admin = await prisma.user.create({
+      data: {
+        name: "Admin",
+        email: "admin@test.com",
+        password_hash: await hash("test123", 6),
+        role: "ADMIN",
+      },
+    });
+
+    const sessionResponse = await request(app.server)
+      .post("/sessions")
+      .send({ email: admin.email, password: "test123" });
+
+    const { token: adminToken } = sessionResponse.body;
+
+    const gym = await prisma.gym.create({
+      data: {
+        title: "JS Gym",
+        description: "",
+        phone: "",
+        latitude: -23.5229811,
+        longitude: -46.6734008,
+      },
+    });
+
+    await prisma.checkIn.createManyAndReturn({
+      data: [
+        { gym_id: gym.id, user_id: member.id },
+        { gym_id: gym.id, user_id: member.id },
+      ],
+    });
+
+    const checkInHistoryRequest = await request(app.server)
+      .get("/check-ins/history")
+      .set("Authorization", `Bearer ${adminToken}`)
+      .expect(200);
+
+    expect(checkInHistoryRequest.body.checkIns).toEqual([
+      expect.objectContaining({ gym_id: gym.id, user_id: member.id }),
+      expect.objectContaining({ gym_id: gym.id, user_id: member.id }),
     ]);
   });
 });

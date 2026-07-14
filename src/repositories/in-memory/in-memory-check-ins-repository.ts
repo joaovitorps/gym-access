@@ -44,6 +44,13 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     );
   }
 
+  async findMany(page: number) {
+    return this.checkIns.slice(
+      (page - 1) * MAX_ITEMS_PER_PAGE,
+      page * MAX_ITEMS_PER_PAGE,
+    );
+  }
+
   async getUserTotalOfCheckIns(userId: string) {
     return this.checkIns.filter((checkIn) => checkIn.user_id === userId).length;
   }
