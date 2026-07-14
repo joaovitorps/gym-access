@@ -13,7 +13,7 @@ describe("Check-in History e2e", async () => {
     await app.close();
   });
 
-  it("should be able to get the user check-in history", async () => {
+  it("should be able to get the user check-in history with gym data", async () => {
     const { token } = await createAndAuthenticateUser(app);
 
     const user = await prisma.user.findFirstOrThrow();
@@ -40,9 +40,15 @@ describe("Check-in History e2e", async () => {
       .set("Authorization", `Bearer ${token}`)
       .expect(200);
 
-    expect(checkInHistoryRequest.body.checkIns).toEqual([
-      expect.objectContaining({ gym_id: gym.id, user_id: user.id }),
-      expect.objectContaining({ gym_id: gym.id, user_id: user.id }),
-    ]);
+    expect(checkInHistoryRequest.body.checkIns).toHaveLength(2);
+    expect(checkInHistoryRequest.body.checkIns).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          gym_id: gym.id,
+          user_id: user.id,
+          gym: expect.objectContaining({ id: gym.id, title: "JS Gym" }),
+        }),
+      ]),
+    );
   });
 });
