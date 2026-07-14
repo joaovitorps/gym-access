@@ -13,8 +13,8 @@ describe("Check-in History e2e", async () => {
     await app.close();
   });
 
-  it("should be able to get the user check-in history with gym data", async () => {
-    const { token } = await createAndAuthenticateUser(app);
+  it("should be able to get the user check-in history with gym and user data", async () => {
+    const { token, userBodyData } = await createAndAuthenticateUser(app);
 
     const user = await prisma.user.findFirstOrThrow();
 
@@ -47,6 +47,7 @@ describe("Check-in History e2e", async () => {
           gym_id: gym.id,
           user_id: user.id,
           gym: expect.objectContaining({ id: gym.id, title: "JS Gym" }),
+          user: expect.objectContaining({ name: userBodyData.name }),
         }),
       ]),
     );

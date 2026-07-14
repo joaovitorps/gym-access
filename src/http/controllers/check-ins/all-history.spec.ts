@@ -20,7 +20,7 @@ describe("Check-in All History e2e", async () => {
     await app.close();
   });
 
-  it("should return all check-ins with gym data for admins", async () => {
+  it("should return all check-ins with gym and user data for admins", async () => {
     const { token: adminToken } = await createAndAuthenticateUser(app, true);
 
     const memberUser = await prisma.user.create({
@@ -59,6 +59,7 @@ describe("Check-in All History e2e", async () => {
       gym_id: gym.id,
       user_id: memberUser.id,
       gym: { id: gym.id, title: "JS Gym" },
+      user: { name: "Member" },
       validated_at: null,
     });
   });

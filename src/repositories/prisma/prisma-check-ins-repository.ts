@@ -33,7 +33,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
 
   async findMany(page: number) {
     const checkIn = await prisma.checkIn.findMany({
-      include: { gym: true },
+      include: { gym: true, user: { select: { name: true } } },
       orderBy: {
         created_at: "desc",
       },
@@ -52,7 +52,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       orderBy: {
         created_at: "desc",
       },
-      include: { gym: true },
+      include: { gym: true, user: { select: { name: true } } },
       skip: (page - 1) * MAX_ITEMS_PER_PAGE,
       take: MAX_ITEMS_PER_PAGE,
     });
