@@ -4,12 +4,13 @@ import jwt from "@fastify/jwt";
 import { fastify } from "fastify";
 import * as z from "zod";
 import { env } from "./env";
-import { MaxDistanceReachedError } from "./use-cases/errors/max-distance-reached-error";
-import { MaxNumberOfCheckInError } from "./use-cases/errors/max-number-of-check-in-error";
-import { ResourceNotFoundError } from "./use-cases/errors/resource-not-found-error";
 import { checkInRoutes } from "./http/controllers/check-ins/routes";
 import { gymRoutes } from "./http/controllers/gyms/routes";
 import { userRoutes } from "./http/controllers/users/routes";
+import { LateCheckInValidationError } from "./use-cases/errors/late-check-in-validation-error";
+import { MaxDistanceReachedError } from "./use-cases/errors/max-distance-reached-error";
+import { MaxNumberOfCheckInError } from "./use-cases/errors/max-number-of-check-in-error";
+import { ResourceNotFoundError } from "./use-cases/errors/resource-not-found-error";
 
 export const app = fastify({
   logger: true,
@@ -49,6 +50,10 @@ app.setErrorHandler((error, _request, reply) => {
 
   if (error instanceof ResourceNotFoundError) {
     return reply.code(404).send({ message: error.message });
+  }
+
+  if (error instanceof LateCheckInValidationError) {
+    return reply.code(422).send({ message: error.message });
   }
 
   if (error instanceof z.ZodError) {
