@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { env } from "@/env";
 
 export const refresh = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
@@ -24,8 +25,8 @@ export const refresh = async (request: FastifyRequest, reply: FastifyReply) => {
       .setCookie("refreshToken", refreshToken, {
         path: "/",
         httpOnly: true,
-        sameSite: true, // alternative CSRF protection
-        secure: true, // send cookie over HTTPS only
+        sameSite: env.NODE_ENV === "production" ? "none" : "lax", // alternative CSRF protection
+        secure: env.NODE_ENV === "production", // send cookie over HTTPS only
       })
       .code(200)
       .send({ token: authToken });

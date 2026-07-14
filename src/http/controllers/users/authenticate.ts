@@ -1,5 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
+import { env } from "@/env";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
 
@@ -39,8 +40,8 @@ export const authenticate = async (
       .setCookie("refreshToken", refreshToken, {
         path: "/",
         httpOnly: true,
-        sameSite: true,
-        secure: true,
+        sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+        secure: env.NODE_ENV === "production",
       })
       .code(200)
       .send({ token: authToken });
