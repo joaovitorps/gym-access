@@ -53,4 +53,44 @@ describe("Fetch User Check-ins History Use Case", async () => {
       expect.objectContaining({ gym_id: "gym-21" }),
     ]);
   });
+
+  it("should return check-ins history sorted newest-first by created_at", async () => {
+    const oldest = new Date("2026-01-01T10:00:00Z");
+    const middle = new Date("2026-01-02T10:00:00Z");
+    const newest = new Date("2026-01-03T10:00:00Z");
+
+    inMemoryCheckInsRepository.checkIns.push(
+      {
+        id: "check-in-1",
+        gym_id: "gym-old",
+        user_id: "user-1",
+        validated_at: null,
+        created_at: oldest,
+      },
+      {
+        id: "check-in-2",
+        gym_id: "gym-new",
+        user_id: "user-1",
+        validated_at: null,
+        created_at: newest,
+      },
+      {
+        id: "check-in-3",
+        gym_id: "gym-mid",
+        user_id: "user-1",
+        validated_at: null,
+        created_at: middle,
+      },
+    );
+
+    const { checkIns } = await sut.execute({
+      userId: "user-1",
+      page: 1,
+    });
+
+    expect(checkIns).toHaveLength(3);
+    expect(checkIns[0].gym_id).toBe("gym-new");
+    expect(checkIns[1].gym_id).toBe("gym-mid");
+    expect(checkIns[2].gym_id).toBe("gym-old");
+  });
 });

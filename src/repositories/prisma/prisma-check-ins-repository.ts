@@ -36,6 +36,9 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       where: {
         user_id: userId,
       },
+      orderBy: {
+        created_at: "desc",
+      },
       skip: (page - 1) * MAX_ITEMS_PER_PAGE,
       take: MAX_ITEMS_PER_PAGE,
     });

@@ -34,9 +34,9 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
   }
 
   async findManyByUserId(userId: string, page: number) {
-    const userCheckInsHistory = this.checkIns.filter(
-      (checkIn) => checkIn.user_id === userId,
-    );
+    const userCheckInsHistory = this.checkIns
+      .filter((checkIn) => checkIn.user_id === userId)
+      .sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
 
     return userCheckInsHistory.slice(
       (page - 1) * MAX_ITEMS_PER_PAGE,
