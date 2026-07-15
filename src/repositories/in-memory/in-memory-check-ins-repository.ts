@@ -18,6 +18,13 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     return checkIn;
   }
 
+  async findMany(page: number) {
+    return this.checkIns.slice(
+      (page - 1) * MAX_ITEMS_PER_PAGE,
+      page * MAX_ITEMS_PER_PAGE,
+    );
+  }
+
   async findByUserIdOnDate(userId: string, date: Date) {
     const checkIn = this.checkIns.find((checkIn) => {
       const checkInDate = dayjs(checkIn.created_at);
