@@ -5,9 +5,9 @@
   "main": "src/server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "start": "tsx watch dist/server.js",
+    "start": "node dist/server.js",
     "restart": "npm run build && npm run start",
-    "build": "tsup-node src/server.ts --format esm --minify",
+    "build": "./node_modules/.bin/prisma generate && tsup-node src/server.ts --format esm --minify",
     "test": "vitest --project unit",
     "test:e2e": "vitest --project e2e",
     "test:watch": "vitest --watch --project unit",
